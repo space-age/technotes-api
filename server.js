@@ -18,16 +18,23 @@ console.log(process.env.NODE_ENV);
 // connects to the mongo database
 connectDB();
 
+// middleware that logs any incoming requests into a file
 app.use(logger);
 
+// will enable CORS with the cors options set up and with the allowed origins
 app.use(cors(corsOptions));
 
-//will allow app receive and parse that JSON data
+// will allow app to receive and parse that JSON data. It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json());
 
+/**
+ * The middleware will parse the Cookie header on the request and expose the cookie data
+ * as the property req.cookies and, if a secret was provided, as the property req.signedCookies.
+ * These properties are name value pairs of the cookie name to cookie value.
+ */
 app.use(cookieParser());
 
-//no need to add path for css file for when using public
+// no need to add path for css file for when using public, so this is middleware to access the css file
 app.use("/", express.static(path.join(__dirname, "public")));
 //app.use(express.static("public")); //does the same as above but with less information
 
